@@ -20,3 +20,8 @@ dependencies {
 
     annotationProcessor "info.picocli:picocli-codegen:$picocli"
 }
+
+run {
+    mainClassName = "dev.dewy.mpm.MPM"
+    argsString = "" // For testing.
+}
