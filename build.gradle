@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
     implementation "info.picocli:picocli:$picocli"
+    implementation "com.diogonunes:JColor:$jcolor"
     implementation "com.google.code.gson:gson:$gson"
     implementation "com.konghq:unirest-java:$unirest"
 
