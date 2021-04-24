@@ -1,0 +1,22 @@
+plugins {
+    id "application"
+}
+
+group "dev.dewy"
+version "1.0.0"
+
+compileJava {
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "info.picocli:picocli:$picocli"
+    implementation "com.google.code.gson:gson:$gson"
+    implementation "com.konghq:unirest-java:$unirest"
+
+    annotationProcessor "info.picocli:picocli-codegen:$picocli"
+}
