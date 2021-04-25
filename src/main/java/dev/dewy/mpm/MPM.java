@@ -2,6 +2,7 @@ package dev.dewy.mpm;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dev.dewy.mpm.commands.EnvironmentCommands;
 import dev.dewy.mpm.settings.AuthSettings;
 import dev.dewy.mpm.settings.BasicSettings;
 import dev.dewy.mpm.settings.EnvironmentsSettings;
@@ -19,7 +20,10 @@ import java.util.concurrent.Callable;
         name = "mpm",
         version = "MPM (Minecraft Package Manager) v" + MPM.VERSION,
         description = "Work with Minecraft from the command line.",
-        mixinStandardHelpOptions = true
+        mixinStandardHelpOptions = true,
+        subcommands = {
+                EnvironmentCommands.class
+        }
 )
 public class MPM implements Callable<Integer> {
     public static final String VERSION = "1.0.0";
@@ -42,6 +46,10 @@ public class MPM implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        return 0;
+    }
+
+    private static void init() {
         CACHE_DIR.mkdirs();
         ASSETS_DIR.mkdirs();
         PACKAGES_DIR.mkdirs();
@@ -69,13 +77,11 @@ public class MPM implements Callable<Integer> {
             ConsoleUtils.error("An exception occurred when loading MPM settings.");
             e.printStackTrace();
         }
-
-        SettingsManager.save();
-
-        return 0;
     }
 
     public static void main(String[] args) {
+        init();
+
         int exitCode = new CommandLine(new MPM()).execute(args);
         System.exit(exitCode);
     }
