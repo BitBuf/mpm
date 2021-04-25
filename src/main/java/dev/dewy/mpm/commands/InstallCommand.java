@@ -33,8 +33,7 @@ public class InstallCommand implements Callable<Integer> {
 
             try {
                 String packageFileName = pkg + "-" + MPM.getOperatingSystem().getRepresentation() + ".tar.gz";
-//                URL packageUrl = new URL(MPM.basicSettings.getRepository() + "/" + packageFileName);
-                URL packageUrl = new URL("https://transfer.sh/get/15r3P0/1.16.5-linux.tar.gz");
+                URL packageUrl = new URL(MPM.basicSettings.getRepository() + "/" + packageFileName);
 
                 File tar = new File(MPM.CACHE_DIR + "/" + packageFileName);
                 File tmp = new File(MPM.CACHE_DIR + "/tmp/");

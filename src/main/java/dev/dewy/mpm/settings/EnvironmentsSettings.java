@@ -3,7 +3,7 @@ package dev.dewy.mpm.settings;
 import java.util.List;
 
 public class EnvironmentsSettings {
-    private List<String> environments;
+    private final List<String> environments;
 
     public EnvironmentsSettings(List<String> environments) {
         this.environments = environments;
@@ -11,9 +11,5 @@ public class EnvironmentsSettings {
 
     public List<String> getEnvironments() {
         return environments;
-    }
-
-    public void setEnvironments(List<String> environments) {
-        this.environments = environments;
     }
 }

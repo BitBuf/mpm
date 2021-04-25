@@ -20,10 +20,10 @@ public class EnvironmentCommands {
 
         for (String env : envs) {
             if (!existing.contains(env)) {
-                ConsoleUtils.info("Creating environment " + env);
-
                 new File(MPM.ENV_DIR + "/" + env).mkdirs();
                 existing.add(env);
+
+                ConsoleUtils.info("Environment " + env + " created.");
             } else {
                 ConsoleUtils.warning("Environment " + env + " already exists. It will not be re-created.");
             }

@@ -20,6 +20,10 @@ public class SettingsManager {
     }
 
     public static void save() {
+        if (MPM.basicSettings.isVerbose()) {
+            System.out.println("Saving configuration...");
+        }
+
         try (Writer basicWriter = new FileWriter(MPM.BASIC_SETTINGS);
              Writer authWriter = new FileWriter(MPM.AUTH_SETTINGS);
              Writer envWriter = new FileWriter(MPM.ENV_SETTINGS)) {

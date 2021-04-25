@@ -76,7 +76,7 @@ public class LaunchCommand implements Callable<Integer> {
                         try {
                             authService.login();
                         } catch (RequestException e) {
-                            ConsoleUtils.warning("Unable to authenticate with account " + fullAccount.getEmail());
+                            ConsoleUtils.error("Unable to authenticate with account " + fullAccount.getEmail() + ". Aborting launch.");
                             e.printStackTrace();
 
                             return -1;
@@ -85,7 +85,10 @@ public class LaunchCommand implements Callable<Integer> {
                         try {
                             sb.append(" --accessToken ").append(authService.getAccessToken()).append(" --username ").append(fullAccount.getUsername()).append(" --uuid ").append(NetUtils.getUuidFromName(fullAccount.getUsername()));
                         } catch (IOException e) {
+                            ConsoleUtils.error("Unable to obtain UUID of account " + fullAccount.getEmail() + ". Aborting launch.");
                             e.printStackTrace();
+
+                            return -1;
                         }
                     } else {
                         ConsoleUtils.warning("Account " + account.getEmail() + " not found. Will launch in offline mode.");

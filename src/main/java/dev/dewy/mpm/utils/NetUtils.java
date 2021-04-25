@@ -11,6 +11,10 @@ import java.nio.channels.ReadableByteChannel;
 
 public class NetUtils {
     public static void download(URL url, File destination) throws IOException {
+        if (MPM.basicSettings.isVerbose()) {
+            System.out.println("Downloading " + url + " to " + destination);
+        }
+
         ReadableByteChannel channel = Channels.newChannel(url.openStream());
         FileOutputStream fos = new FileOutputStream(destination);
 
@@ -18,6 +22,10 @@ public class NetUtils {
     }
 
     public static boolean exists(URL url) {
+        if (MPM.basicSettings.isVerbose()) {
+            System.out.println("Validating URL " + url);
+        }
+
         try {
             HttpURLConnection.setFollowRedirects(false);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
@@ -26,11 +34,19 @@ public class NetUtils {
 
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
         } catch (IOException e) {
+            if (MPM.basicSettings.isVerbose()) {
+                System.out.println("URL " + url + " does not have a thing that exists.");
+            }
+
             return false;
         }
     }
 
     public static String getUuidFromName(String name) throws IOException {
+        if (MPM.basicSettings.isVerbose()) {
+            System.out.println("Getting UUID from name " + name);
+        }
+
         HttpURLConnection con = (HttpURLConnection) new URL("https://api.mojang.com/users/profiles/minecraft/" + name).openConnection();
 
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));

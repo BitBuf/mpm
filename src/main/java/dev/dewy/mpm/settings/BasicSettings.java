@@ -1,8 +1,8 @@
 package dev.dewy.mpm.settings;
 
 public class BasicSettings {
-    private String repository;
-    private boolean verbose;
+    private final String repository;
+    private final boolean verbose;
 
     public BasicSettings(String repository, boolean verbose) {
         this.repository = repository;
@@ -13,15 +13,7 @@ public class BasicSettings {
         return repository;
     }
 
-    public void setRepository(String repository) {
-        this.repository = repository;
-    }
-
     public boolean isVerbose() {
         return verbose;
-    }
-
-    public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
     }
 }

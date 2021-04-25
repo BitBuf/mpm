@@ -1,5 +1,7 @@
 package dev.dewy.mpm.utils;
 
+import dev.dewy.mpm.MPM;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -19,6 +21,10 @@ public class FileSystemUtils {
     }
 
     public static void loadLibrary(File jar) throws Exception {
+        if (MPM.basicSettings.isVerbose()) {
+            System.out.println("Loading library " + jar);
+        }
+
         URLClassLoader loader = (URLClassLoader) ClassLoader.getSystemClassLoader();
         URL url = jar.toURI().toURL();
 
