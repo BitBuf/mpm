@@ -11,13 +11,18 @@ compileJava {
 
 repositories {
     mavenCentral()
+
+    maven {
+        name "jitpack"
+        url "https://jitpack.io/"
+    }
 }
 
 dependencies {
     implementation "info.picocli:picocli:$picocli"
     implementation "com.diogonunes:JColor:$jcolor"
     implementation "com.google.code.gson:gson:$gson"
-    implementation "com.konghq:unirest-java:$unirest"
+    implementation "com.github.steveice10:mcauthlib:$authlib"
 
     annotationProcessor "info.picocli:picocli-codegen:$picocli"
 }

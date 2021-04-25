@@ -6,6 +6,13 @@ public class Account {
     private String accessToken;
     private String clientToken;
 
+    public Account(String username) {
+        this.username = username;
+        this.password = null;
+        this.accessToken = null;
+        this.clientToken = null;
+    }
+
     public Account(String username, String password, String accessToken, String clientToken) {
         this.username = username;
         this.password = password;
@@ -52,14 +59,11 @@ public class Account {
 
         Account account = (Account) o;
 
-        if (!username.equals(account.username)) return false;
-        return password.equals(account.password);
+        return username.equals(account.username);
     }
 
     @Override
     public int hashCode() {
-        int result = username.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
+        return username.hashCode();
     }
 }
