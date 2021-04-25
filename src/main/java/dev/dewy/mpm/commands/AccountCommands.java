@@ -14,32 +14,33 @@ import picocli.CommandLine.*;
 )
 public class AccountCommands {
     @Command(name = "add", description = "Add a new account.")
-    public void add(@Parameters(description = "Account to add.") String[] pair) {
-        if (pair.length == 2) {
-            ConsoleUtils.info("Logging in with account " + pair[0]);
+    public void add(@Parameters(description = "Account to add.") String[] params) {
+        if (params.length == 3) {
+            ConsoleUtils.info("Logging in with account " + params[0]);
 
             AuthenticationService auth = new AuthenticationService();
-            auth.setUsername(pair[0]);
-            auth.setPassword(pair[1]);
+            auth.setUsername(params[0]);
+            auth.setPassword(params[1]);
 
             try {
                 auth.login();
             } catch (RequestException e) {
-                ConsoleUtils.error("An exception occurred when logging in with account " + pair[0]);
+                ConsoleUtils.error("An exception occurred when logging in with account " + params[0]);
                 e.printStackTrace();
 
                 return;
             }
 
             MPM.authSettings.getAccounts().add(new Account(
-                    pair[0],
-                    pair[1],
+                    params[0],
+                    params[1],
+                    params[2],
                     auth.getAccessToken(),
                     auth.getClientToken()
             ));
 
             SettingsManager.save();
-            ConsoleUtils.info("Added account " + pair[0]);
+            ConsoleUtils.info("Added account " + params[0]);
         }
     }
 

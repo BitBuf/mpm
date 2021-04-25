@@ -30,5 +30,5 @@ dependencies {
 
 run {
     mainClassName = "dev.dewy.mpm.MPM"
-    argsString = "install 1.16.5" // For testing.
+    argsString = "" // For testing.
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dev.dewy.mpm.commands.AccountCommands;
 import dev.dewy.mpm.commands.EnvironmentCommands;
 import dev.dewy.mpm.commands.InstallCommand;
+import dev.dewy.mpm.commands.LaunchCommand;
 import dev.dewy.mpm.models.OperatingSystem;
 import dev.dewy.mpm.settings.AuthSettings;
 import dev.dewy.mpm.settings.BasicSettings;
@@ -27,7 +28,8 @@ import java.util.concurrent.Callable;
         subcommands = {
                 EnvironmentCommands.class,
                 AccountCommands.class,
-                InstallCommand.class
+                InstallCommand.class,
+                LaunchCommand.class
         }
 )
 public class MPM implements Callable<Integer> {
