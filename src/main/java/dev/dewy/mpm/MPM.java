@@ -71,10 +71,6 @@ public class MPM implements Callable<Integer> {
     }
 
     private static void init() {
-        if (basicSettings.isVerbose()) {
-            System.out.println("Initializing directories...");
-        }
-
         CACHE_DIR.mkdirs();
         ASSETS_DIR.mkdirs();
         PACKAGES_DIR.mkdirs();
@@ -107,11 +103,11 @@ public class MPM implements Callable<Integer> {
     }
 
     public static void main(String[] args) {
+        init();
+
         if (basicSettings.isVerbose()) {
             System.out.println("Starting MPM v" + VERSION);
         }
-
-        init();
 
         int exitCode = new CommandLine(new MPM()).execute(args);
         System.exit(exitCode);
