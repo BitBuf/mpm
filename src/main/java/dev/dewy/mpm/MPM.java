@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.dewy.mpm.commands.AccountCommands;
 import dev.dewy.mpm.commands.EnvironmentCommands;
+import dev.dewy.mpm.commands.InstallCommand;
+import dev.dewy.mpm.models.OperatingSystem;
 import dev.dewy.mpm.settings.AuthSettings;
 import dev.dewy.mpm.settings.BasicSettings;
 import dev.dewy.mpm.settings.EnvironmentsSettings;
@@ -24,7 +26,8 @@ import java.util.concurrent.Callable;
         mixinStandardHelpOptions = true,
         subcommands = {
                 EnvironmentCommands.class,
-                AccountCommands.class
+                AccountCommands.class,
+                InstallCommand.class
         }
 )
 public class MPM implements Callable<Integer> {
@@ -49,6 +52,20 @@ public class MPM implements Callable<Integer> {
     @Override
     public Integer call() {
         return 0;
+    }
+
+    public static OperatingSystem getOperatingSystem() {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("nux") || os.contains("nix") || os.indexOf("aix") > 0) {
+            return OperatingSystem.LINUX;
+        } else if (os.contains("win")) {
+            return OperatingSystem.WINDOWS;
+        } else if (os.contains("mac")) {
+            return OperatingSystem.MACOS;
+        } else {
+            return OperatingSystem.UNKNOWN;
+        }
     }
 
     private static void init() {
