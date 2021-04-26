@@ -53,6 +53,8 @@ public class LaunchCommand implements Callable<Integer> {
                     return -1;
                 }
 
+                System.setProperty("org.lwjgl.librarypath", librariesDir.getAbsolutePath());
+
                 Method mainMethod = null;
                 try {
                     mainMethod = Class.forName("net.minecraft.client.main.Main").getMethod("main", String[].class);

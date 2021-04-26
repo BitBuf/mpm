@@ -40,19 +40,19 @@ public class InstallCommand implements Callable<Integer> {
 
                 if (NetUtils.exists(packageUrl)) {
                     NetUtils.download(packageUrl, tar);
+
+                    Archiver archiver = ArchiverFactory.createArchiver("tar", "gz");
+                    archiver.extract(tar, tmp);
+
+                    File destination = new File(MPM.PACKAGES_DIR + "/" + pkg);
+                    destination.mkdirs();
+                    Files.move(new File(tmp.getPath() + "/" + pkg).toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                    tmp.delete();
+                    tar.delete();
                 } else {
                     ConsoleUtils.warning("Package " + pkg + " not found in repository " + MPM.basicSettings.getRepository());
                 }
-
-                Archiver archiver = ArchiverFactory.createArchiver("tar", "gz");
-                archiver.extract(tar, tmp);
-
-                File destination = new File(MPM.PACKAGES_DIR + "/" + pkg);
-                destination.mkdirs();
-                Files.move(new File(tmp.getPath() + "/" + pkg).toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
-
-                tmp.delete();
-                tar.delete();
             } catch (IOException e) {
                 ConsoleUtils.error("Unable to install package " + pkg);
                 e.printStackTrace();
