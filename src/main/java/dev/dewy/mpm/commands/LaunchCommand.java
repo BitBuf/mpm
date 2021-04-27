@@ -2,8 +2,10 @@ package dev.dewy.mpm.commands;
 
 import com.github.steveice10.mc.auth.exception.request.RequestException;
 import com.github.steveice10.mc.auth.service.AuthenticationService;
+import com.google.gson.stream.JsonReader;
 import dev.dewy.mpm.MPM;
 import dev.dewy.mpm.models.Account;
+import dev.dewy.mpm.models.Package;
 import dev.dewy.mpm.utils.ConsoleUtils;
 import dev.dewy.mpm.utils.FileSystemUtils;
 import dev.dewy.mpm.utils.NetUtils;
@@ -11,6 +13,8 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,7 +30,7 @@ public class LaunchCommand implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        if (arguments.length > 1 && arguments.length < 4) {
+        if (arguments.length > 1) {
             File packageDir = new File(MPM.PACKAGES_DIR + "/" + arguments[0]);
             File environment = new File(MPM.ENV_DIR + "/" + arguments[1]);
 
@@ -55,17 +59,34 @@ public class LaunchCommand implements Callable<Integer> {
 
                 System.setProperty("org.lwjgl.librarypath", librariesDir.getAbsolutePath());
 
-                Method mainMethod = null;
+                Package info;
                 try {
-                    mainMethod = Class.forName("net.minecraft.client.main.Main").getMethod("main", String[].class);
+                    info = MPM.GSON.fromJson(new JsonReader(new FileReader(packageDir + "/package.json")), Package.class);
+                } catch (FileNotFoundException e) {
+                    ConsoleUtils.error("Unable to locate package info. Aborting.");
+                    e.printStackTrace();
+
+                    return -1;
+                }
+
+                Method mainMethod;
+                try {
+                    mainMethod = Class.forName(info.getMainClass() == null ? "net.minecraft.client.main.Main" : info.getMainClass()).getMethod("main", String[].class);
                 } catch (NoSuchMethodException | ClassNotFoundException e) {
                     ConsoleUtils.error("Unable to locate Minecraft main method. Aborting.");
                     e.printStackTrace();
+
+                    return -1;
                 }
 
                 StringBuilder sb = new StringBuilder("--version MPM --gameDir " + environment + " --resourcePackDir " + environment + "/resourcepacks --assetsDir " + new File(packageDir + "/assets" + " --assetIndex " + arguments[0]));
 
-                if (arguments.length == 3) {
+                if (info.isModded()) {
+                    sb.append(" --tweakClass ").append(info.getTweakClass());
+                    sb.append(" ").append(info.getOtherArgs()).append(" ");
+                }
+
+                if (arguments.length >= 3) {
                     Account account = new Account(arguments[2]);
 
                     if (MPM.authSettings.getAccounts().contains(account)) {
@@ -92,6 +113,12 @@ public class LaunchCommand implements Callable<Integer> {
 
                             return -1;
                         }
+
+                        if (arguments.length >= 4) {
+                            for (String arg : arguments) {
+                                sb.append(" ").append(arg).append(" ");
+                            }
+                        }
                     } else {
                         ConsoleUtils.warning("Account " + account.getEmail() + " not found. Will launch in offline mode.");
                         sb.append(" --accessToken MPM");
@@ -105,6 +132,8 @@ public class LaunchCommand implements Callable<Integer> {
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
+            } else {
+                ConsoleUtils.warning("Either package " + arguments[0] + " not installed or environment " + arguments[1] + " not present.");
             }
         }
 

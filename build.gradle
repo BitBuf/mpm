@@ -28,6 +28,13 @@ dependencies {
     annotationProcessor "info.picocli:picocli-codegen:$picocli"
 }
 
+startScripts {
+    doLast {
+        unixScript.text = unixScript.text.replace('DEFAULT_JVM_OPTS=""', 'DEFAULT_JVM_OPTS="-Duser.dir=$HOME/.mpm/"')
+        windowsScript.text = windowsScript.text.replace('set DEFAULT_JVM_OPTS=', 'set DEFAULT_JVM_OPTS=%userprofile%\\.mpm\\')
+    }
+}
+
 run {
     mainClassName = "dev.dewy.mpm.MPM"
     argsString = "" // For testing.
