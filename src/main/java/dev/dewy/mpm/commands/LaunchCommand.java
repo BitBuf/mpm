@@ -35,6 +35,8 @@ public class LaunchCommand implements Callable<Integer> {
             File environment = new File(MPM.ENV_DIR + "/" + arguments[1]);
 
             if (packageDir.exists() && environment.exists()) {
+                ConsoleUtils.info("Launching package " + arguments[0]);
+
                 File librariesDir = new File(packageDir + "/libraries");
 
                 for (File lib : librariesDir.listFiles()) {
@@ -130,6 +132,7 @@ public class LaunchCommand implements Callable<Integer> {
                 try {
                     mainMethod.invoke(null, (Object) sb.toString().split(" "));
                 } catch (IllegalAccessException | InvocationTargetException e) {
+                    ConsoleUtils.error("Unable to invoke main method.");
                     e.printStackTrace();
                 }
             } else {

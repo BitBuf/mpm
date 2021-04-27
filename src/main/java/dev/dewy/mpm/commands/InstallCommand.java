@@ -32,6 +32,8 @@ public class InstallCommand implements Callable<Integer> {
             }
 
             try {
+                ConsoleUtils.info("Installing package " + pkg);
+
                 String packageFileName = pkg + "-" + MPM.getOperatingSystem().getRepresentation() + ".tar.gz";
                 URL packageUrl = new URL(MPM.basicSettings.getRepository() + "/" + packageFileName);
 
