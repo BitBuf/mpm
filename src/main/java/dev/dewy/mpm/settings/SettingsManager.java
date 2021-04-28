@@ -8,7 +8,7 @@ import java.io.*;
 
 public class SettingsManager {
     public static BasicSettings deserializeBasic() throws FileNotFoundException {
-        return MPM.GSON.fromJson(new JsonReader(new FileReader(MPM.BASIC_SETTINGS)), BasicSettings.class);
+        return MPM.GSON.fromJson(new JsonReader(new FileReader(MPM.SETTINGS)), BasicSettings.class);
     }
 
     public static AuthSettings deserializeAuth() throws FileNotFoundException {
@@ -24,7 +24,7 @@ public class SettingsManager {
             System.out.println("Saving configuration...");
         }
 
-        try (Writer basicWriter = new FileWriter(MPM.BASIC_SETTINGS);
+        try (Writer basicWriter = new FileWriter(MPM.SETTINGS);
              Writer authWriter = new FileWriter(MPM.AUTH_SETTINGS);
              Writer envWriter = new FileWriter(MPM.ENV_SETTINGS)) {
 

@@ -26,16 +26,16 @@ import java.util.concurrent.Callable;
 )
 public class LaunchCommand implements Callable<Integer> {
     @Parameters(description = "Package to launch, the environment and account to launch under.")
-    public String[] arguments;
+    public String[] parameters;
 
     @Override
     public Integer call() {
-        if (arguments.length > 1) {
-            File packageDir = new File(MPM.PACKAGES_DIR + "/" + arguments[0]);
-            File environment = new File(MPM.ENV_DIR + "/" + arguments[1]);
+        if (parameters.length > 1) {
+            File packageDir = new File(MPM.PACKAGES_DIR + "/" + parameters[0]);
+            File environment = new File(MPM.ENV_DIR + "/" + parameters[1]);
 
             if (packageDir.exists() && environment.exists()) {
-                ConsoleUtils.info("Launching package " + arguments[0]);
+                ConsoleUtils.info("Launching package " + parameters[0]);
 
                 File librariesDir = new File(packageDir + "/libraries");
 
@@ -81,15 +81,15 @@ public class LaunchCommand implements Callable<Integer> {
                     return -1;
                 }
 
-                StringBuilder sb = new StringBuilder("--version MPM --gameDir " + environment + " --resourcePackDir " + environment + "/resourcepacks --assetsDir " + new File(packageDir + "/assets" + " --assetIndex " + arguments[0]));
+                StringBuilder sb = new StringBuilder("--version MPM --gameDir " + environment + " --resourcePackDir " + environment + "/resourcepacks --assetsDir " + new File(packageDir + "/assets" + " --assetIndex " + parameters[0]));
 
                 if (info.isModded()) {
                     sb.append(" --tweakClass ").append(info.getTweakClass());
                     sb.append(" ").append(info.getOtherArgs()).append(" ");
                 }
 
-                if (arguments.length >= 3) {
-                    Account account = new Account(arguments[2]);
+                if (parameters.length >= 3) {
+                    Account account = new Account(parameters[2]);
 
                     if (MPM.authSettings.getAccounts().contains(account)) {
                         Account fullAccount = MPM.authSettings.getAccounts().get(MPM.authSettings.getAccounts().indexOf(account));
@@ -116,8 +116,8 @@ public class LaunchCommand implements Callable<Integer> {
                             return -1;
                         }
 
-                        if (arguments.length >= 4) {
-                            for (String arg : arguments) {
+                        if (parameters.length >= 4) {
+                            for (String arg : parameters) {
                                 sb.append(" ").append(arg).append(" ");
                             }
                         }
@@ -136,7 +136,7 @@ public class LaunchCommand implements Callable<Integer> {
                     e.printStackTrace();
                 }
             } else {
-                ConsoleUtils.warning("Either package " + arguments[0] + " not installed or environment " + arguments[1] + " not present.");
+                ConsoleUtils.warning("Either package " + parameters[0] + " not installed or environment " + parameters[1] + " not present.");
             }
         }
 

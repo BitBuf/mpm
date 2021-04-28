@@ -14,7 +14,7 @@ import java.util.List;
         description = "Manage your environments."
 )
 public class EnvironmentCommands {
-    @Command(name = "create", description = "Create a new environment.")
+    @Command(name = "create", description = "Create new environments.")
     public void create(@Parameters(description = "Environments to create.") String[] envs) {
         List<String> existing = MPM.environmentsSettings.getEnvironments();
 
@@ -32,7 +32,7 @@ public class EnvironmentCommands {
         SettingsManager.save();
     }
 
-    @Command(name = "remove", description = "Remove (delete) an existing environment.")
+    @Command(name = "remove", description = "Remove (delete) existing environments.")
     public void remove(@Parameters(description = "Environments to remove.") String[] envs) {
         List<String> existing = MPM.environmentsSettings.getEnvironments();
 

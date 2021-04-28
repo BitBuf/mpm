@@ -25,9 +25,9 @@ import java.util.concurrent.Callable;
         subcommands = {
                 LaunchCommand.class,
                 InstallCommand.class,
+                RemoveCommand.class,
                 EnvironmentCommands.class,
                 AccountCommands.class,
-                RemoveCommand.class
         }
 )
 public class MPM implements Callable<Integer> {
@@ -46,7 +46,7 @@ public class MPM implements Callable<Integer> {
     public static final File PACKAGES_DIR = new File(BASE_DIR + "/packages");
     public static final File ENV_DIR = new File(BASE_DIR + "/environments");
 
-    public static final File BASIC_SETTINGS = new File(BASE_DIR + "/settings.json");
+    public static final File SETTINGS = new File(BASE_DIR + "/settings.json");
     public static final File AUTH_SETTINGS = new File(BASE_DIR + "/auth.json");
     public static final File ENV_SETTINGS = new File(BASE_DIR + "/environments.json");
 
@@ -76,7 +76,7 @@ public class MPM implements Callable<Integer> {
         ENV_DIR.mkdirs();
 
         try {
-            if (BASIC_SETTINGS.createNewFile()) {
+            if (SETTINGS.createNewFile()) {
                 basicSettings = new BasicSettings(DEFAULT_REPO, false);
             } else {
                 basicSettings = SettingsManager.deserializeBasic();
