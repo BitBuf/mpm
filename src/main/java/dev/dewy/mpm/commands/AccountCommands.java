@@ -33,8 +33,8 @@ public class AccountCommands {
 
             MPM.authSettings.getAccounts().add(new Account(
                     params[0],
-                    params[1],
                     params[2],
+                    params[1],
                     auth.getAccessToken(),
                     auth.getClientToken()
             ));
