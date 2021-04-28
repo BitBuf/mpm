@@ -3,6 +3,7 @@
 **MPM is a fiddly way to launch Minecraft from the command line; basically a package manager for Minecraft versions.**
 
 It can be used to work with Minecraft 100% headless-ly, in conjunction with mods such as [HeadlessForge](https://github.com/3arthqu4ke/HeadlessForge).
+MPM can be used for **headless Baritone**: see [here](https://github.com/iBuyMountainDew/mpm/wiki/4.-Use-Case:-Headless-Baritone).
 
 ## Installation
 
