@@ -88,6 +88,7 @@ public class LaunchCommand implements Callable<Integer> {
                     sb.append(" ").append(info.getOtherArgs()).append(" ");
                 }
 
+                // Doing auth properly here isn't possible with MCAuthLib; gonna create a Java Yggdrasil wrapper for this soon. I'm well aware it's scuffed.
                 if (parameters.length >= 3) {
                     Account account = new Account(parameters[2]);
 
